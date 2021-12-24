@@ -19,7 +19,27 @@ Wenn die Befehle unten funktionieren habt ihr alles richtig gemacht xdddd
 ~ LG Suphi
 """
 
+
+"""
+Das ist der Index mit allen Headern der Database_to_calculate_popularity.csv
+
+Index(['Unnamed: 0', 'country', 'date', 'position', 'uri', 'track', 'title',
+       'artist'],
+      dtype='object')
+
+df.loc[df["artist"] == "Ariana Grande"]
+"""
+
 #Wenn beide Befehle funktionieren hat das impotieren der CSV Dateien funktioniert! (Ladezeit normal etwas länger)
 #MÜSSEN 2 TABELLEN SEIN AM ENDE!
-print(pd.read_csv("Database_to_calculate_popularity.csv"))
-print(pd.read_csv("Final_database.csv"))
+#print(pd.read_csv("Database_to_calculate_popularity.csv"))
+#df_csv = pd.read_csv("Final_database.csv")
+df = pd.read_csv("Database_to_calculate_popularity.csv")
+df["count"] = 1
+
+df_count = df.groupby(["artist"]).count()["count"]
+print(df_count.sort_values())
+
+
+
+#print(df.groupby(["artist"]).mean().sort_values("position", ascending=False))
