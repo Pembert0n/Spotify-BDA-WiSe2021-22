@@ -8,12 +8,16 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+pd.options.mode.chained_assignment = None
+
 
 #Einlesen der CSV
-#df2 = pd.read_csv("Final_database.csv")
+
 
 df1 = pd.read_csv("Database_to_calculate_popularity.csv")
 df1["count"] = 1
+
+df2 = pd.read_csv("Final_database.csv")
 '''
 Zeitunterteilung
 '''
@@ -64,11 +68,11 @@ print("NaNs?", df_k1.isnull().sum())
 # Drop all NaNs
 df_k1 = df_k1.dropna(axis=0)
 
-df_k1 = df_k1.head(20)
+df_k1h = df_k1.head(20)
 
 # Visualization
-Lsize = df_k1.groupby(["artist"]).count()["count"]
-LLables = df_k1.groupby(["artist"]).count()["count"].index
+Lsize = df_k1h.groupby(["artist"]).count()["count"]
+LLables = df_k1h.groupby(["artist"]).count()["count"].index
 
 # Figure
 plt.figure(figsize=(7, 7))
@@ -76,6 +80,34 @@ plt.pie(Lsize, labels=LLables, autopct="%1.1f%%")
 plt.title("")
 plt.savefig("PieSpot.pdf")
 
+
+
+
+
+list = df_k1h["artist"].tolist()
+print(list)
+
+filter = df_k1["artist"].isin(list)
+df_k1f = df_k1.loc[filter]
+#print(df_k1f["artist"].head(50))
+df_k1f.drop_duplicates(subset="track", inplace=True, ignore_index=True)
+#finde out tracks
+print(df_k1f["track"].head(50))
+
+#df1 & df2
+df1_urilist = df_k1f["uri"].tolist()
+
+
+duration_filter = df2["Uri"].isin(df1_urilist)
+df2f = df2.loc[duration_filter]
+
+
+df2f.drop_duplicates(subset="Uri", inplace=True, ignore_index=True)
+
+df2o = df2f["duration_ms"]
+
+
+print(df2o.mean())
 
 
 
