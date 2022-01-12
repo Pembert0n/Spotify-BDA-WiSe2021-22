@@ -68,7 +68,7 @@ df_k1 = df_k1.head(20)
 
 # Visualization
 Lsize = df_k1.groupby(["artist"]).count()["count"]
-LLables = df_k1["artist"].value_counts().index
+LLables = df_k1.groupby(["artist"]).count()["count"].index
 
 # Figure
 plt.figure(figsize=(7, 7))
