@@ -177,29 +177,28 @@ plt.savefig("PieSpot2017.pdf")
 Durchschnitt der Songlänge
 '''
 
-#Durchscnitslänge der songs
+#Fügt alle künstler vom Dataframe1 zu einer liste hinzu
 list = df_k1h["artist"].tolist()
-#print(list)
 
+#generiert den Filter mithilöfe der list
 filter = df_k1["artist"].isin(list)
 df_k1f = df_k1.loc[filter]
-#print(df_k1f["artist"].head(50))
+#entfernt Duplikate in df1
 df_k1f.drop_duplicates(subset="track", inplace=True, ignore_index=True)
-#finde out tracks
-#print(df_k1f["track"].head(50))
 
-#df1 & df2
+#fügt alle uri von df1 zu einer liste hinzu
 df1_urilist = df_k1f["uri"].tolist()
 
-
+#erstellt filter und filter direkt df2 nach den passenden Tracks
 duration_filter = df2["Uri"].isin(df1_urilist)
 df2f = df2.loc[duration_filter]
 
-
+#entfernt Duplikate in df2
 df2f.drop_duplicates(subset="Uri", inplace=True, ignore_index=True)
 
+#gibt Durchschnitslänge aus
 df2o = df2f["duration_ms"]
-#print(df2o.mean())
+print(df2o.mean())
 
 
 
@@ -207,36 +206,39 @@ df2o = df2f["duration_ms"]
 '''
 Worter im Titel check
 '''
+#filter und fügt den text alls variable hinzu
 df_text = df_k1["title"]
 
+#entfernt Duplicate
 df_k1.drop_duplicates(subset="title", inplace=True, ignore_index=True)
 
-#print(df_k1[df_k1['title'].str.len() >= 4])
+#zählt die am häufigst genutzentn wörter und fügt sie zu einer .CSV Datei hinzu
 df_wordtitle = pd.Series(' '.join(df_k1['title']).lower().split()).value_counts()[: 142].head(20)
 df_wordtitle.to_csv("WordTitle.csv")
 
 
 '''
-Genre
+Genre der Tracks der beliebtesten 20 Künstler
 '''
 
-#2020
-# Visualization
+# Visualisierung von Genre
+# Hier werden die Genre aus df2 gezählt sowie auch ihre Namen als Index gespeicheirt
 LsizeGenre = df2f.groupby(["Genre"]).count()["count"]
 LLablesGenre = df2f.groupby(["Genre"]).count()["count"].index
 
-# Figure
+# kuchendiegram wird erstellt und gepeichert
 plt.figure(figsize=(7, 7))
 plt.pie(LsizeGenre, labels=LLablesGenre, autopct="%1.1f%%")
 plt.title("")
 plt.savefig("Genre.pdf")
 
 
-
-
 '''
 Explicit
 '''
+
+# Visualisierung von Explicit
+# Hier werden die Explicit aus df2 gezählt sowie auch ihre Namen als Index gespeicheirt
 LsizeGenre = df2f.groupby(["Explicit"]).count()["count"]
 LLablesGenre = df2f.groupby(["Explicit"]).count()["count"].index
 
@@ -247,5 +249,43 @@ plt.title("")
 plt.savefig("Explicit.pdf")
 
 
+'''
+Danceability
+'''
+#berechnet den durchschintt der deancability
+d2f2dance_string = df2f["danceability"].mean()
+print("Danceability: " + str(d2f2dance_string))
+
+
+'''
+Loudness
+'''
+#berechnet die durchscnittliche loudness
+df2floud_string = df2f["loudness"].mean()
+print("Loudness: " + str(df2floud_string))
+
+'''
+Speechiness
+'''
+#berechnet die durchscnittliche speechiness
+df2fspeech_string = df2f["speechiness"].mean()
+print("Speechiness: " + str(df2fspeech_string))
+
+'''
+Aucustics
+'''
+#berechnet die durchscnittlichen Aucustics
+df2facoust_string = df2f["acoustics"].mean()
+print("Aucustics: " + str(df2facoust_string))
+
+'''
+Tempo
+'''
+#berechnet das durchscnittliche Tempo
+df2ftempo_string = df2f["tempo"].mean()
+print("Tempo: " + str(df2ftempo_string))
+
+
 # Just the End
 print("Done")
+
