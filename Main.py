@@ -1,8 +1,4 @@
 # @since: 2021-12-03
-'''
-Link zur Hausarbeit:
-https://studhsheilbronnde-my.sharepoint.com/:w:/g/personal/spembe_stud_hs-heilbronn_de/EdtQ7nqM4p5MqvPq2Zoj30oBSpqMtPRbKED2AKkgTx8agA?e=9N16hW
-'''
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
