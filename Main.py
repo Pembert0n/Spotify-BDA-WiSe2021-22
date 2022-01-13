@@ -18,6 +18,7 @@ df1 = pd.read_csv("Database_to_calculate_popularity.csv")
 df1["count"] = 1
 
 df2 = pd.read_csv("Final_database.csv")
+df2["count"] = 1
 '''
 Zeitunterteilung
 '''
@@ -214,6 +215,36 @@ df_k1.drop_duplicates(subset="title", inplace=True, ignore_index=True)
 df_wordtitle = pd.Series(' '.join(df_k1['title']).lower().split()).value_counts()[: 142].head(20)
 df_wordtitle.to_csv("WordTitle.csv")
 
+
+'''
+Genre
+'''
+
+#2020
+# Visualization
+LsizeGenre = df2f.groupby(["Genre"]).count()["count"]
+LLablesGenre = df2f.groupby(["Genre"]).count()["count"].index
+
+# Figure
+plt.figure(figsize=(7, 7))
+plt.pie(LsizeGenre, labels=LLablesGenre, autopct="%1.1f%%")
+plt.title("")
+plt.savefig("Genre.pdf")
+
+
+
+
+'''
+Explicit
+'''
+LsizeGenre = df2f.groupby(["Explicit"]).count()["count"]
+LLablesGenre = df2f.groupby(["Explicit"]).count()["count"].index
+
+# Figure
+plt.figure(figsize=(7, 7))
+plt.pie(LsizeGenre, labels=LLablesGenre, autopct="%1.1f%%")
+plt.title("")
+plt.savefig("Explicit.pdf")
 
 
 # Just the End
