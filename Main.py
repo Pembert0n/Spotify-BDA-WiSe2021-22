@@ -201,14 +201,19 @@ df2o = df2f["duration_ms"]
 #print(df2o.mean())
 
 
-#Herkunftsländer
-print(df2f["country"])
 
 
 '''
 Worter im Titel check
 '''
-df_k1h["artist"]
+df_text = df_k1["title"]
+
+df_k1.drop_duplicates(subset="title", inplace=True, ignore_index=True)
+
+#print(df_k1[df_k1['title'].str.len() >= 4])
+print(pd.Series(' '.join(df_k1['title']).lower().split()).value_counts()[: 142].head(20))
+
+
 
 
 # Just the End
