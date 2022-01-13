@@ -7,16 +7,19 @@ import seaborn as sns
 pd.options.mode.chained_assignment = None
 
 
-#Einlesen der CSV
-
+'''
+Einlesen der CSV Dateien
+'''
 
 df1 = pd.read_csv("Database_to_calculate_popularity.csv")
 df1["count"] = 1
 
 df2 = pd.read_csv("Final_database.csv")
 df2["count"] = 1
+
+
 '''
-Zeitunterteilung
+Zeitunterteilung für den fogelnden abschnitt
 '''
 #2017
 df2017 = df1
@@ -48,32 +51,27 @@ mask = (df2020['date'] > start_date) & (df2020['date'] <= end_date) & (df2020['c
 
 
 '''
-Code für Abscnhitt 1 der Seminararbeit.
-Hier werden die Charts für ... erstellt
-
+Hier werden die Charts der best 20 Künstelr der Jahre 2017 - 2020 gefiltert
 '''
 
 
 #Top 20 Künstler in den Charts
-
+#Fügt die Filter zu den jeweiligen Dataframes hinzu und zählt die Artist im jewiligen Dataframe
 df_k1 = df2020.loc[mask]
 df_k1_countCountry = df_k1.groupby(["artist"]).count()["count"]
 
-df_k2 = df2019.loc[mask]
+df_k2 = df2019.loc[mask19]
 df_k2_countCountry = df_k2.groupby(["artist"]).count()["count"]
 
-df_k3 = df2018.loc[mask]
+df_k3 = df2018.loc[mask18]
 df_k3_countCountry = df_k3.groupby(["artist"]).count()["count"]
 
-df_k4 = df2018.loc[mask]
+df_k4 = df2017.loc[mask17]
 df_k4_countCountry = df_k4.groupby(["artist"]).count()["count"]
-#print(df_k1_countCountry.sort_values())
 
 
-# Pre-Processing
-#print("NaNs?", df_k1.isnull().sum())
-
-# Drop all NaNs
+#2020
+# entferne alle NaNs
 df_k1 = df_k1.dropna(axis=0)
 
 df_k1h = df_k1.head(20)
@@ -83,25 +81,18 @@ Lsize = df_k1h.groupby(["artist"]).count()["count"]
 LLables = df_k1h.groupby(["artist"]).count()["count"].index
 
 # Figure
-plt.figure(figsize=(7, 7))
+plt.figure(figsize=(10, 10))
 plt.pie(Lsize, labels=LLables, autopct="%1.1f%%")
+plt.tight_layout()
 plt.title("")
-plt.savefig("PieSpot2020.pdf")
+plt.savefig("PieSpot2020.png")
 
 
 #2019
-df_k2 = df2019.loc[mask19]
-
-df_k2_countCountry = df_k2.groupby(["artist"]).count()["count"]
-#print(df_k1_countCountry.sort_values())
-
-
-# Pre-Processing
-#print("NaNs?", df_k1.isnull().sum())
-
-# Drop all NaNs
+#Entfernt all NaNs
 df_k2 = df_k2.dropna(axis=0)
 
+#Gibt die top 20 wieder
 df_k2h = df_k2.head(20)
 
 # Visualization
@@ -109,63 +100,50 @@ Lsize19 = df_k2h.groupby(["artist"]).count()["count"]
 LLables19 = df_k2h.groupby(["artist"]).count()["count"].index
 
 # Figure
-plt.figure(figsize=(7, 7))
+plt.figure(figsize=(10, 10))
 plt.pie(Lsize19, labels=LLables19, autopct="%1.1f%%")
+plt.tight_layout()
 plt.title("")
-plt.savefig("PieSpot2019.pdf")
+plt.savefig("PieSpot2019.png")
 
 
 
 #2018
-df_k3 = df2018.loc[mask18]
-
-df_k3_countCountry = df_k3.groupby(["artist"]).count()["count"]
-#print(df_k1_countCountry.sort_values())
-
-
-# Pre-Processing
-#print("NaNs?", df_k1.isnull().sum())
-
-# Drop all NaNs
+# Entferne all NaNs
 df_k3 = df_k3.dropna(axis=0)
 
+#Filtert die top 20 heraus
 df_k3h = df_k3.head(20)
 
-# Visualization
+# Visualisierungsparameter
 Lsize18 = df_k3h.groupby(["artist"]).count()["count"]
 LLables18 = df_k3h.groupby(["artist"]).count()["count"].index
 
-# Figure
-plt.figure(figsize=(7, 7))
+# Figur
+plt.figure(figsize=(10, 10))
 plt.pie(Lsize18, labels=LLables18, autopct="%1.1f%%")
+plt.tight_layout()
 plt.title("")
-plt.savefig("PieSpot2018.pdf")
+plt.savefig("PieSpot2018.png")
 
 
 #2017
-df_k4 = df2017.loc[mask17]
-
-df_k4_countCountry = df_k4.groupby(["artist"]).count()["count"]
-#print(df_k1_countCountry.sort_values())
-
-
-# Pre-Processing
-#print("NaNs?", df_k1.isnull().sum())
-
-# Drop all NaNs
+# Entferne alle NaNs
 df_k4 = df_k4.dropna(axis=0)
 
+#wähle die top 20 aus
 df_k4h = df_k4.head(20)
 
-# Visualization
+# Visualisierungsparameter
 Lsize17 = df_k4h.groupby(["artist"]).count()["count"]
 LLables17 = df_k4h.groupby(["artist"]).count()["count"].index
 
-# Figure
-plt.figure(figsize=(7, 7))
+# Figur
+plt.figure(figsize=(10, 10))
 plt.pie(Lsize17, labels=LLables17, autopct="%1.1f%%")
+plt.tight_layout()
 plt.title("")
-plt.savefig("PieSpot2017.pdf")
+plt.savefig("PieSpot2017.png")
 
 
 
@@ -192,9 +170,9 @@ df2f = df2.loc[duration_filter]
 #entfernt Duplikate in df2
 df2f.drop_duplicates(subset="Uri", inplace=True, ignore_index=True)
 
-#gibt Durchschnitslänge aus
-df2o = df2f["duration_ms"]
-print(df2o.mean())
+#gibt Durchschnitslänge als String aus
+lengh_string = df2f["duration_ms"].mean()
+print("Länge: " + str(lengh_string))
 
 
 
@@ -223,10 +201,11 @@ LsizeGenre = df2f.groupby(["Genre"]).count()["count"]
 LLablesGenre = df2f.groupby(["Genre"]).count()["count"].index
 
 # kuchendiegram wird erstellt und gepeichert
-plt.figure(figsize=(7, 7))
+plt.figure(figsize=(10, 10))
+plt.tight_layout()
 plt.pie(LsizeGenre, labels=LLablesGenre, autopct="%1.1f%%")
 plt.title("")
-plt.savefig("Genre.pdf")
+plt.savefig("Genre.png")
 
 
 '''
@@ -239,10 +218,11 @@ LsizeGenre = df2f.groupby(["Explicit"]).count()["count"]
 LLablesGenre = df2f.groupby(["Explicit"]).count()["count"].index
 
 # Figure
-plt.figure(figsize=(7, 7))
+plt.figure(figsize=(10, 10))
 plt.pie(LsizeGenre, labels=LLablesGenre, autopct="%1.1f%%")
+plt.tight_layout()
 plt.title("")
-plt.savefig("Explicit.pdf")
+plt.savefig("Explicit.png")
 
 
 '''
