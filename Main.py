@@ -211,8 +211,8 @@ df_text = df_k1["title"]
 df_k1.drop_duplicates(subset="title", inplace=True, ignore_index=True)
 
 #print(df_k1[df_k1['title'].str.len() >= 4])
-print(pd.Series(' '.join(df_k1['title']).lower().split()).value_counts()[: 142].head(20))
-
+df_wordtitle = pd.Series(' '.join(df_k1['title']).lower().split()).value_counts()[: 142].head(20)
+df_wordtitle.to_csv("WordTitle.csv")
 
 
 
